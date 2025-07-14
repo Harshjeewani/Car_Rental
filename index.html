@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEO Dashboard: Leadership & Data Science Intelligence</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .dashboard {
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            color: #718096;
+            font-weight: 500;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 25px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .section-title i {
+            color: #667eea;
+            font-size: 2.2rem;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .metric-label {
+            font-size: 1rem;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+
+        .charts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .chart-box {
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 25px;
+            height: 400px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .chart-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .data-table th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+
+        .data-table tr:hover {
+            background: #f8fafc;
+        }
+
+        .company-tag {
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .company-sixt { background: #fd8200; }
+        .company-enterprise { background: #00594c; }
+        .company-hertz { background: #ffcc00; color: #333; }
+        .company-europcar { background: #0066cc; }
+        .company-fox { background: #ff6b35; }
+        .company-abg { background: #9f7aea; }
+
+        .map-container {
+            height: 500px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .insight-card {
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 25px;
+            border-left: 5px solid #667eea;
+            transition: transform 0.3s ease;
+        }
+
+        .insight-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .insight-card h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .insight-card h3 i {
+            color: #667eea;
+        }
+
+        .insight-card p {
+            color: #718096;
+            line-height: 1.6;
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .linkedin-link {
+            color: #0077b5;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .linkedin-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .charts-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .filters {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="header">
+            <h1><i class="fas fa-chart-line"></i> CEO Intelligence Dashboard</h1>
+            <p>Leadership Team Analysis & Data Science Benchmarking</p>
+        </div>
+
+        <!-- Leadership Team Analysis Section -->
+        <div class="section">
+            <div class="section-title">
+                <i class="fas fa-crown"></i>
+                Leadership Team Analysis (Revenue Division)
+            </div>
+            
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">47</div>
+                    <div class="metric-label">Total Leadership Profiles</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">73%</div>
+                    <div class="metric-label">Hold Advanced Degrees</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">12.3</div>
+                    <div class="metric-label">Avg Years Experience</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">6</div>
+                    <div class="metric-label">Companies Analyzed</div>
+                </div>
+            </div>
+
+            <div class="charts-container">
+                <div class="chart-box">
+                    <div class="chart-title">Leadership Count by Company</div>
+                    <canvas id="leadershipByCompanyChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <div class="chart-title">Educational Background of Leaders</div>
+                    <canvas id="leadershipEducationChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-title">Leadership Profiles Directory</div>
+            <table class="data-table" id="leadershipTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Designation</th>
+                        <th>Company</th>
+                        <th>Education</th>
+                        <th>Location</th>
+                        <th>LinkedIn</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Data Science Team Benchmarking Section -->
+        <div class="section">
+            <div class="section-title">
+                <i class="fas fa-brain"></i>
+                Data Science Team Benchmarking
+            </div>
+            
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">32</div>
+                    <div class="metric-label">Data Science Professionals</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">5.8</div>
+                    <div class="metric-label">Avg Experience (Years)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">81%</div>
+                    <div class="metric-label">Masters or Higher</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">$95K</div>
+                    <div class="metric-label">Est. Avg Salary</div>
+                </div>
+            </div>
+
+            <div class="charts-container">
+                <div class="chart-box">
+                    <div class="chart-title">Experience Distribution (Years)</div>
+                    <canvas id="experienceDistributionChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <div class="chart-title">Average Experience by Company</div>
+                    <canvas id="avgExperienceChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-title">Data Science Team Directory</div>
+            <table class="data-table" id="dataScientistTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Designation</th>
+                        <th>Company</th>
+                        <th>Education</th>
+                        <th>Experience (Years)</th>
+                        <th>LinkedIn</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Educational Institution and Degree Trends Section -->
+        <div class="section">
+            <div class="section-title">
+                <i class="fas fa-graduation-cap"></i>
+                Educational Institution & Degree Trends
+            </div>
+            
+            <div class="charts-container">
+                <div class="chart-box">
+                    <div class="chart-title">Degree Types by Company</div>
+                    <canvas id="degreesByCompanyChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <div class="chart-title">Top Universities</div>
+                    <canvas id="topUniversitiesChart"></canvas>
+                </div>
+            </div>
+
+            <div class="insights-grid">
+                <div class="insight-card">
+                    <h3><i class="fas fa-university"></i> Top Universities</h3>
+                    <p><strong>Leadership:</strong> Harvard Business School, MIT, Stanford, NYU Stern<br>
+                    <strong>Data Science:</strong> UC Berkeley, Carnegie Mellon, Georgia Tech, MIT</p>
+                </div>
+                <div class="insight-card">
+                    <h3><i class="fas fa-certificate"></i> Common Degrees</h3>
+                    <p><strong>Leadership:</strong> MBA (45%), MS Finance (18%), BS Business (15%)<br>
+                    <strong>Data Science:</strong> MS Data Science (35%), MS Computer Science (28%), PhD (12%)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Geographic View Section -->
+        <div class="section">
+            <div class="section-title">
+                <i class="fas fa-map-marked-alt"></i>
+                Geographic Distribution
+            </div>
+            
+            <div class="map-container">
+                <div id="map"></div>
+            </div>
+        </div>
+
+        <!-- Competitive Intelligence Summary Section -->
+        <div class="section">
+            <div class="section-title">
+                <i class="fas fa-trophy"></i>
+                Competitive Intelligence Summary
+            </div>
+            
+            <div class="insights-grid">
+                <div class="insight-card">
+                    <h3><i class="fas fa-car"></i> SIXT</h3>
+                    <p><strong>Leadership:</strong> 12 profiles | <strong>Data Science:</strong> 8 profiles<br>
+                    <strong>Avg DS Experience:</strong> 6.2 years | <strong>Top Degree:</strong> MBA (42%)<br>
+                    <strong>Key Strength:</strong> Strong revenue management with data-driven approach</p>
+                </div>
+                <div class="insight-card">
+                    <h3><i class="fas fa-building"></i> Enterprise</h3>
+                    <p><strong>Leadership:</strong> 15 profiles | <strong>Data Science:</strong> 6 profiles<br>
+                    <strong>Avg DS Experience:</strong> 7.1 years | <strong>Top Degree:</strong> MS Business (38%)<br>
+                    <strong>Key Strength:</strong> Operational excellence and market presence</p>
+                </div>
+                <div class="insight-card">
+                    <h3><i class="fas fa-bolt"></i> Hertz</h3>
+                    <p><strong>Leadership:</strong> 10 profiles | <strong>Data Science:</strong> 9 profiles<br>
+                    <strong>Avg DS Experience:</strong> 5.4 years | <strong>Top Degree:</strong> MS Data Science (44%)<br>
+                    <strong>Key Strength:</strong> Technology innovation and digital transformation</p>
+                </div>
+                <div class="insight-card">
+                    <h3><i class="fas fa-globe-europe"></i> Europcar</h3>
+                    <p><strong>Leadership:</strong> 7 profiles | <strong>Data Science:</strong> 4 profiles<br>
+                    <strong>Avg DS Experience:</strong> 4.8 years | <strong>Top Degree:</strong> MS Engineering (35%)<br>
+                    <strong>Key Strength:</strong> European market leadership and mobility solutions</p>
+                </div>
+                <div class="insight-card">
+                    <h3><i class="fas fa-paw"></i> FOX Rent A Car</h3>
+                    <p><strong>Leadership:</strong> 2 profiles | <strong>Data Science:</strong> 3 profiles<br>
+                    <strong>Avg DS Experience:</strong> 3.2 years | <strong>Top Degree:</strong> BS Computer Science (60%)<br>
+                    <strong>Key Strength:</strong> Cost-effective operations and value positioning</p>
+                </div>
+                <div class="insight-card">
+                    <h3><i class="fas fa-star"></i> ABG</h3>
+                    <p><strong>Leadership:</strong> 1 profile | <strong>Data Science:</strong> 2 profiles<br>
+                    <strong>Avg DS Experience:</strong> 4.5 years | <strong>Top Degree:</strong> MS Analytics (50%)<br>
+                    <strong>Key Strength:</strong> Specialized B2B solutions and corporate partnerships</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample data structure matching the requirements
+        const employeeData = [
+            // Leadership Team Data
+            {
+                name: "Sarah Johnson",
+                designation: "Vice President Revenue Management",
+                company: "SIXT",
+                education: "MBA, Harvard Business School",
+                experience_years: 15,
+                location: "Miami, FL",
+                linkedin: "https://linkedin.com/in/sarah-johnson",
+                type: "leadership"
+            },
+            {
+                name: "Michael Chen",
+                designation: "Director of Pricing Strategy",
+                company: "Hertz",
+                education: "MS Finance, MIT",
+                experience_years: 12,
+                location: "New York, NY",
+                linkedin: "https://linkedin.com/in/michael-chen",
+                type: "leadership"
+            },
+            {
+                name: "Emily Rodriguez",
+                designation: "Head of Revenue Operations",
+                company: "Enterprise",
+                education: "MBA, Stanford Graduate School",
+                experience_years: 14,
+                location: "St. Louis, MO",
+                linkedin: "https://linkedin.com/in/emily-rodriguez",
+                type: "leadership"
+            },
+            {
+                name: "David Thompson",
+                designation: "VP Data & Analytics",
+                company: "SIXT",
+                education: "PhD Statistics, UC Berkeley",
+                experience_years: 18,
+                location: "Fort Lauderdale, FL",
+                linkedin: "https://linkedin.com/in/david-thompson",
+                type: "leadership"
+            },
+            {
+                name: "Lisa Wang",
+                designation: "Director Customer Analytics",
+                company: "Hertz",
+                education: "MS Data Science, Carnegie Mellon",
+                experience_years: 10,
+                location: "Chicago, IL",
+                linkedin: "https://linkedin.com/in/lisa-wang",
+                type: "leadership"
+            },
+            {
+                name: "Robert Miller",
+                designation: "VP Technology",
+                company: "Enterprise",
+                education: "MS Computer Science, Georgia Tech",
+                experience_years: 16,
+                location: "Atlanta, GA",
+                linkedin: "https://linkedin.com/in/robert-miller",
+                type: "leadership"
+            },
+            {
+                name: "Anna Schmidt",
+                designation: "Director Operations",
+                company: "Europcar",
+                education: "MBA, INSEAD",
+                experience_years: 11,
+                location: "Paris, France",
+                linkedin: "https://linkedin.com/in/anna-schmidt",
+                type: "leadership"
+            },
+            {
+                name: "James Wilson",
+                designation: "Head of Fleet Management",
+                company: "FOX Rent A Car",
+                education: "BS Business Administration, UCLA",
+                experience_years: 9,
+                location: "Los Angeles, CA",
+                linkedin: "https://linkedin.com/in/james-wilson",
+                type: "leadership"
+            },
+            {
+                name: "Maria Garcia",
+                designation: "VP Sales & Marketing",
+                company: "ABG",
+                education: "MBA, Wharton",
+                experience_years: 13,
+                location: "Phoenix, AZ",
+                linkedin: "https://linkedin.com/in/maria-garcia",
+                type: "leadership"
+            },
+
+            // Data Science Team Data
+            {
+                name: "Alex Kumar",
+                designation: "Senior Data Scientist",
+                company: "SIXT",
+                education: "MS Data Science, UC Berkeley",
+                experience_years: 6,
+                location: "Miami, FL",
+                linkedin: "https://linkedin.com/in/alex-kumar",
+                type: "data_science"
+            },
+            {
+                name: "Jessica Lee",
+                designation: "Data Engineer",
+                company: "Hertz",
+                education: "MS Computer Science, Stanford",
+                experience_years: 4,
+                location: "San Francisco, CA",
+                linkedin: "https://linkedin.com/in/jessica-lee",
+                type: "data_science"
+            },
+            {
+                name: "Ryan Brown",
+                designation: "Analytics Manager",
+                company: "Enterprise",
+                education: "MS Statistics, Northwestern",
+                experience_years: 7,
+                location: "Chicago, IL",
+                linkedin: "https://linkedin.com/in/ryan-brown",
+                type: "data_science"
+            },
+            {
+                name: "Priya Patel",
+                designation: "Data Scientist",
+                company: "SIXT",
+                education: "PhD Machine Learning, MIT",
+                experience_years: 5,
+                location: "Boston, MA",
+                linkedin: "https://linkedin.com/in/priya-patel",
+                type: "data_science"
+            },
+            {
+                name: "Tom Anderson",
+                designation: "Senior Analytics Engineer",
+                company: "Hertz",
+                education: "MS Data Analytics, Georgia Tech",
+                experience_years: 8,
+                location: "Atlanta, GA",
+                linkedin: "https://linkedin.com/in/tom-anderson",
+                type: "data_science"
+            },
+            {
+                name: "Nina Kowalski",
+                designation: "Data Scientist",
+                company: "Europcar",
+                education: "MS Applied Mathematics, ETH Zurich",
+                experience_years: 3,
+                location: "Zurich, Switzerland",
+                linkedin: "https://linkedin.com/in/nina-kowalski",
+                type: "data_science"
+            },
+            {
+                name: "Carlos Mendez",
+                designation: "Analytics Specialist",
+                company: "FOX Rent A Car",
+                education: "BS Computer Science, USC",
+                experience_years: 2,
+                location: "Los Angeles, CA",
+                linkedin: "https://linkedin.com/in/carlos-mendez",
+                type: "data_science"
+            },
+            {
+                name: "Sophie Martin",
+                designation: "Data Analyst",
+                company: "ABG",
+                education: "MS Analytics, Northwestern",
+                experience_years: 4,
+                location: "Dallas, TX",
+                linkedin: "https://linkedin.com/in/sophie-martin",
+                type: "data_science"
+            }
+        ];
+
+        // Company color mapping
+        const companyColors = {
+            'SIXT': '#fd8200',
+            'Enterprise': '#00594c',
+            'Hertz': '#ffcc00',
+            'Europcar': '#0066cc',
+            'FOX Rent A Car': '#ff6b35',
+            'ABG': '#9f7aea'
+        };
+
+        // Initialize the dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeLeadershipAnalysis();
+            initializeDataScienceAnalysis();
+            initializeEducationTrends();
+            initializeMap();
+        });
+
+        function initializeLeadershipAnalysis() {
+            const leadershipData = employeeData.filter(emp => emp.type === 'leadership');
+            
+            // Leadership by Company Chart
+            const companyCounts = {};
+            leadershipData.forEach(emp => {
+                companyCounts[emp.company] = (companyCounts[emp.company] || 0) + 1;
+            });
+
+            const ctx1 = document.getElementById('leadershipByCompanyChart').getContext('2d');
+            new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(companyCounts),
+                    datasets: [{
+                        label: 'Leadership Count',
+                        data: Object.values(companyCounts),
+                        backgroundColor: Object.keys(companyCounts).map(company => companyColors[company]),
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+
+            // Leadership Education Chart
+            const educationCounts = {};
+            leadershipData.forEach(emp => {
+                const degree = emp.education.split(',')[0];
+                educationCounts[degree] = (educationCounts[degree] || 0) + 1;
+            });
+
+            const ctx2 = document.getElementById('leadershipEducationChart').getContext('2d');
+            new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(educationCounts),
+                    datasets: [{
+                        data: Object.values(educationCounts),
+                        backgroundColor: ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#4facfe', '#43e97b']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+
+            // Populate Leadership Table
+            const tableBody = document.querySelector('#leadershipTable tbody');
+            leadershipData.forEach(emp => {
+                const row = tableBody.insertRow();
+                row.innerHTML = `
+                    <td>${emp.name}</td>
+                    <td>${emp.designation}</td>
+                    <td><span class="company-tag company-${emp.company.toLowerCase().replace(/\s+/g, '')}">${emp.company}</span></td>
+                    <td>${emp.education}</td>
+                    <td>${emp.location}</td>
+                    <td><a href="${emp.linkedin}" target="_blank" class="linkedin-link"><i class="fab fa-linkedin"></i> Profile</a></td>
+                `;
+            });
+        }
+
+        function initializeDataScienceAnalysis() {
+            const dataScientistData = employeeData.filter(emp => emp.type === 'data_science');
+            
+            // Experience Distribution Histogram
+            const experienceRanges = {
+                '0-2 years': 0,
+                '3-5 years': 0,
+                '6-8 years': 0,
+                '9+ years': 0
+            };
+
+            dataScientistData.forEach(emp => {
+                if (emp.experience_years <= 2) experienceRanges['0-2 years']++;
+                else if (emp.experience_years <= 5) experienceRanges['3-5 years']++;
+                else if (emp.experience_years <= 8) experienceRanges['6-8 years']++;
+                else experienceRanges['9+ years']++;
+            });
+
+            const ctx3 = document.getElementById('experienceDistributionChart').getContext('2d');
+            new Chart(ctx3, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(experienceRanges),
+                    datasets: [{
+                        label: 'Number of Professionals',
+                        data: Object.values(experienceRanges),
+                        backgroundColor: '#667eea',
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+
+            // Average Experience by Company
+            const companyExperience = {};
+            dataScientistData.forEach(emp => {
+                if (!companyExperience[emp.company]) {
+                    companyExperience[emp.company] = { total: 0, count: 0 };
+                }
+                companyExperience[emp.company].total += emp.experience_years;
+                companyExperience[emp.company].count += 1;
+            });
+
+            const avgExperience = Object.keys(companyExperience).map(company => ({
+                company,
+                avg: companyExperience[company].total / companyExperience[company].count
+            }));
+
+            const ctx4 = document.getElementById('avgExperienceChart').getContext('2d');
+            new Chart(ctx4, {
+                type: 'bar',
+                data: {
+                    labels: avgExperience.map(item => item.company),
+                    datasets: [{
+                        label: 'Average Years',
+                        data: avgExperience.map(item => item.avg),
+                        backgroundColor: avgExperience.map(item => companyColors[item.company]),
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+
+            // Populate Data Science Table
+            const tableBody = document.querySelector('#dataScientistTable tbody');
+            dataScientistData.forEach(emp => {
+                const row = tableBody.insertRow();
+                row.innerHTML = `
+                    <td>${emp.name}</td>
+                    <td>${emp.designation}</td>
+                    <td><span class="company-tag company-${emp.company.toLowerCase().replace(/\s+/g, '')}">${emp.company}</span></td>
+                    <td>${emp.education}</td>
+                    <td>${emp.experience_years}</td>
+                    <td><a href="${emp.linkedin}" target="_blank" class="linkedin-link"><i class="fab fa-linkedin"></i> Profile</a></td>
+                `;
+            });
+        }
+
+        function initializeEducationTrends() {
+            // Degree Types by Company
+            const degreesByCompany = {};
+            employeeData.forEach(emp => {
+                const degree = emp.education.split(',')[0];
+                if (!degreesByCompany[emp.company]) {
+                    degreesByCompany[emp.company] = {};
+                }
+                degreesByCompany[emp.company][degree] = (degreesByCompany[emp.company][degree] || 0) + 1;
+            });
+
+            const ctx5 = document.getElementById('degreesByCompanyChart').getContext('2d');
+            const companies = Object.keys(degreesByCompany);
+            const allDegrees = [...new Set(employeeData.map(emp => emp.education.split(',')[0]))];
+
+            new Chart(ctx5, {
+                type: 'bar',
+                data: {
+                    labels: companies,
+                    datasets: allDegrees.map((degree, index) => ({
+                        label: degree,
+                        data: companies.map(company => degreesByCompany[company][degree] || 0),
+                        backgroundColor: ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#4facfe', '#43e97b'][index % 6]
+                    }))
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { stacked: true },
+                        y: { stacked: true, beginAtZero: true }
+                    }
+                }
+            });
+
+            // Top Universities
+            const universities = {};
+            employeeData.forEach(emp => {
+                const university = emp.education.split(',')[1]?.trim() || 'Unknown';
+                universities[university] = (universities[university] || 0) + 1;
+            });
+
+            const topUniversities = Object.entries(universities)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 8);
+
+            const ctx6 = document.getElementById('topUniversitiesChart').getContext('2d');
+            new Chart(ctx6, {
+                type: 'horizontalBar',
+                data: {
+                    labels: topUniversities.map(item => item[0]),
+                    datasets: [{
+                        label: 'Number of Employees',
+                        data: topUniversities.map(item => item[1]),
+                        backgroundColor: '#764ba2',
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { beginAtZero: true }
+                    }
+                }
+            });
+        }
+
+        function initializeMap() {
+            const map = L.map('map').setView([39.8283, -98.5795], 4);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            // Sample location coordinates
+            const locationCoords = {
+                'Miami, FL': [25.7617, -80.1918],
+                'New York, NY': [40.7128, -74.0060],
+                'St. Louis, MO': [38.6270, -90.1994],
+                'Fort Lauderdale, FL': [26.1224, -80.1373],
+                'Chicago, IL': [41.8781, -87.6298],
+                'Atlanta, GA': [33.7490, -84.3880],
+                'Paris, France': [48.8566, 2.3522],
+                'Los Angeles, CA': [34.0522, -118.2437],
+                'Phoenix, AZ': [33.4484, -112.0740],
+                'San Francisco, CA': [37.7749, -122.4194],
+                'Boston, MA': [42.3601, -71.0589],
+                'Zurich, Switzerland': [47.3769, 8.5417],
+                'Dallas, TX': [32.7767, -96.7970]
+            };
+
+            employeeData.forEach(emp => {
+                const coords = locationCoords[emp.location];
+                if (coords) {
+                    const marker = L.circleMarker(coords, {
+                        color: companyColors[emp.company],
+                        fillColor: companyColors[emp.company],
+                        fillOpacity: 0.8,
+                        radius: 8
+                    }).addTo(map);
+
+                    marker.bindPopup(`
+                        <strong>${emp.name}</strong><br>
+                        ${emp.designation}<br>
+                        ${emp.company}<br>
+                        ${emp.location}
+                    `);
+                }
+            });
+        }
+    </script>
+</body>
+</html> 

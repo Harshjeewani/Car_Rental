@@ -167,6 +167,10 @@
             background: #f8fafc;
         }
 
+
+
+
+
         .company-tag {
             padding: 4px 8px;
             border-radius: 20px;
@@ -436,8 +440,65 @@
                 Geographic Distribution
             </div>
             
-            <div class="map-container">
+            <div class="charts-container">
+                <div class="chart-box">
+                    <div class="chart-title">Employee Distribution by Location</div>
+                    <canvas id="locationDistributionChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <div class="chart-title">Regional Market Analysis</div>
+                    <canvas id="regionalAnalysisChart"></canvas>
+                </div>
+            </div>
+
+            <div class="map-container" style="margin: 30px 0;">
                 <div id="map"></div>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">17</div>
+                    <div class="metric-label">Total Locations</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">13</div>
+                    <div class="metric-label">US Cities</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">2</div>
+                    <div class="metric-label">International</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">65%</div>
+                    <div class="metric-label">Coast Concentrated</div>
+                </div>
+            </div>
+
+            <div class="insights-grid">
+                <div class="insight-card">
+                    <h3><i class="fas fa-city"></i> Geographic Concentration</h3>
+                    <p><strong>Top Hubs:</strong> Miami, Chicago, Atlanta, Los Angeles (2+ employees each)<br>
+                    <strong>International Presence:</strong> Paris (Europcar hub), Zurich (SIXT operations)<br>
+                    <strong>Strategic Coverage:</strong> 76% US domestic, 24% international markets</p>
+                </div>
+                <div class="insight-card">
+                    <h3><i class="fas fa-globe-americas"></i> Market Coverage Analysis</h3>
+                    <p><strong>East Coast:</strong> 41% of workforce (NY, Miami, Boston, Atlanta)<br>
+                    <strong>West Coast:</strong> 24% concentration (LA, SF, Phoenix)<br>
+                    <strong>Central US:</strong> Chicago, St. Louis, Dallas providing inland coverage</p>
+                </div>
+                <div class="insight-card">
+                    <h3><i class="fas fa-users"></i> Company Distribution Strategy</h3>
+                    <p><strong>Multi-company cities:</strong> Miami, Chicago, Atlanta show competitive overlap<br>
+                    <strong>Unique advantages:</strong> Each company maintains strategic geographic positioning<br>
+                    <strong>Growth opportunities:</strong> Untapped markets in Pacific Northwest, Mountain West</p>
+                </div>
+                <div class="insight-card">
+                    <h3><i class="fas fa-chart-line"></i> Competitive Intelligence</h3>
+                    <p><strong>Market Penetration:</strong> Strong presence in top 15 US rental markets<br>
+                    <strong>International Expansion:</strong> European foothold enables EU market access<br>
+                    <strong>Talent Clustering:</strong> Tech hubs (SF, Miami) vs Business centers (NY, Chicago)</p>
+                </div>
             </div>
         </div>
 
@@ -682,6 +743,7 @@
             initializeLeadershipAnalysis();
             initializeDataScienceAnalysis();
             initializeEducationTrends();
+            initializeGeographicAnalysis();
             initializeMap();
         });
 
@@ -851,6 +913,121 @@
             });
         }
 
+        function initializeGeographicAnalysis() {
+            // Location Distribution Chart
+            const locationCounts = {};
+            employeeData.forEach(emp => {
+                locationCounts[emp.location] = (locationCounts[emp.location] || 0) + 1;
+            });
+
+            const sortedLocations = Object.entries(locationCounts)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 10); // Top 10 locations
+
+            const ctx7 = document.getElementById('locationDistributionChart').getContext('2d');
+            new Chart(ctx7, {
+                type: 'doughnut',
+                data: {
+                    labels: sortedLocations.map(item => item[0]),
+                    datasets: [{
+                        data: sortedLocations.map(item => item[1]),
+                        backgroundColor: [
+                            '#667eea', '#764ba2', '#f093fb', '#f5576c', 
+                            '#4facfe', '#43e97b', '#f6d365', '#fd8200',
+                            '#00594c', '#ffcc00'
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { fontSize: 12 }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((context.parsed / total) * 100).toFixed(1);
+                                    return `${context.label}: ${context.parsed} employees (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Regional Analysis Chart
+            const regions = {
+                'East Coast': ['Miami, FL', 'Fort Lauderdale, FL', 'New York, NY', 'Boston, MA', 'Atlanta, GA'],
+                'West Coast': ['Los Angeles, CA', 'San Francisco, CA', 'Phoenix, AZ'],
+                'Central US': ['Chicago, IL', 'St. Louis, MO', 'Dallas, TX'],
+                'International': ['Paris, France', 'Zurich, Switzerland']
+            };
+
+            const regionalCounts = {};
+            Object.keys(regions).forEach(region => {
+                regionalCounts[region] = 0;
+                regions[region].forEach(location => {
+                    regionalCounts[region] += locationCounts[location] || 0;
+                });
+            });
+
+            const ctx8 = document.getElementById('regionalAnalysisChart').getContext('2d');
+            new Chart(ctx8, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(regionalCounts),
+                    datasets: [{
+                        label: 'Employees by Region',
+                        data: Object.values(regionalCounts),
+                        backgroundColor: ['#667eea', '#764ba2', '#f093fb', '#f5576c'],
+                        borderRadius: 8,
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { 
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const total = Object.values(regionalCounts).reduce((a, b) => a + b, 0);
+                                    const percentage = ((context.parsed.y / total) * 100).toFixed(1);
+                                    return `${context.parsed.y} employees (${percentage}%)`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { 
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Number of Employees'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Regions'
+                            }
+                        }
+                    }
+                                }
+            });
+
+
+ 
+        }
+
         function initializeEducationTrends() {
             // Degree Types by Company
             const degreesByCompany = {};
@@ -899,35 +1076,74 @@
 
             const ctx6 = document.getElementById('topUniversitiesChart').getContext('2d');
             new Chart(ctx6, {
-                type: 'horizontalBar',
+                type: 'bar',
                 data: {
                     labels: topUniversities.map(item => item[0]),
                     datasets: [{
                         label: 'Number of Employees',
                         data: topUniversities.map(item => item[1]),
-                        backgroundColor: '#764ba2',
+                        backgroundColor: [
+                            '#667eea', '#764ba2', '#f093fb', '#f5576c', 
+                            '#4facfe', '#43e97b', '#f6d365', '#fd8200'
+                        ],
                         borderRadius: 8
                     }]
                 },
                 options: {
+                    indexAxis: 'y',
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
+                    plugins: { 
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                title: function(context) {
+                                    return context[0].label;
+                                },
+                                label: function(context) {
+                                    return `Employees: ${context.parsed.x}`;
+                                }
+                            }
+                        }
+                    },
                     scales: {
-                        x: { beginAtZero: true }
+                        x: { 
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Number of Employees'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Universities'
+                            }
+                        }
                     }
                 }
             });
         }
 
         function initializeMap() {
-            const map = L.map('map').setView([39.8283, -98.5795], 4);
+            // Clear any existing map instance
+            if (window.mapInstance) {
+                window.mapInstance.remove();
+            }
+
+            // Wait for the map container to be available
+            setTimeout(() => {
+                const mapContainer = document.getElementById('map');
+                if (!mapContainer) return;
+
+                const map = L.map('map').setView([39.8283, -98.5795], 4);
+                window.mapInstance = map;
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap contributors'
             }).addTo(map);
 
-            // Sample location coordinates
+            // Enhanced location coordinates
             const locationCoords = {
                 'Miami, FL': [25.7617, -80.1918],
                 'New York, NY': [40.7128, -74.0060],
@@ -944,24 +1160,90 @@
                 'Dallas, TX': [32.7767, -96.7970]
             };
 
+            // Group employees by location for better visualization
+            const locationGroups = {};
             employeeData.forEach(emp => {
-                const coords = locationCoords[emp.location];
+                if (!locationGroups[emp.location]) {
+                    locationGroups[emp.location] = [];
+                }
+                locationGroups[emp.location].push(emp);
+            });
+
+            // Add markers for each location
+            Object.keys(locationGroups).forEach(location => {
+                const coords = locationCoords[location];
                 if (coords) {
+                    const employees = locationGroups[location];
+                    const companies = [...new Set(employees.map(emp => emp.company))];
+                    
+                    // Size marker based on number of employees
+                    const radius = Math.max(8, Math.min(20, employees.length * 3));
+                    
+                    // Use primary company color if single company, otherwise use gradient
+                    const markerColor = companies.length === 1 ? 
+                        companyColors[companies[0]] : '#667eea';
+
                     const marker = L.circleMarker(coords, {
-                        color: companyColors[emp.company],
-                        fillColor: companyColors[emp.company],
-                        fillOpacity: 0.8,
-                        radius: 8
+                        color: markerColor,
+                        fillColor: markerColor,
+                        fillOpacity: 0.7,
+                        radius: radius,
+                        weight: 2
                     }).addTo(map);
 
-                    marker.bindPopup(`
-                        <strong>${emp.name}</strong><br>
-                        ${emp.designation}<br>
-                        ${emp.company}<br>
-                        ${emp.location}
-                    `);
+                    // Create detailed popup content
+                    let popupContent = `
+                        <div style="min-width: 200px;">
+                            <h4 style="margin: 0 0 10px 0; color: #2d3748;">${location}</h4>
+                            <p style="margin: 5px 0; font-weight: 600;">Total Employees: ${employees.length}</p>
+                            <p style="margin: 5px 0; font-weight: 600;">Companies: ${companies.join(', ')}</p>
+                            <hr style="margin: 10px 0;">
+                    `;
+
+                    employees.forEach(emp => {
+                        popupContent += `
+                            <div style="margin-bottom: 8px; padding: 5px; background: #f8fafc; border-radius: 4px;">
+                                <strong>${emp.name}</strong><br>
+                                <span style="color: #718096;">${emp.designation}</span><br>
+                                <span class="company-tag" style="background: ${companyColors[emp.company]}; color: white; padding: 2px 6px; border-radius: 10px; font-size: 0.8em;">${emp.company}</span>
+                            </div>
+                        `;
+                    });
+
+                    popupContent += '</div>';
+                    marker.bindPopup(popupContent);
                 }
             });
+
+            // Add a legend
+            const legend = L.control({position: 'bottomright'});
+            legend.onAdd = function(map) {
+                const div = L.DomUtil.create('div', 'legend');
+                div.style.background = 'rgba(255, 255, 255, 0.9)';
+                div.style.padding = '10px';
+                div.style.borderRadius = '8px';
+                div.style.boxShadow = '0 2px 8px rgba(0,0,0,0.2)';
+                
+                let legendContent = '<h4 style="margin: 0 0 8px 0;">Companies</h4>';
+                Object.keys(companyColors).forEach(company => {
+                    legendContent += `
+                        <div style="margin: 4px 0; display: flex; align-items: center;">
+                            <span style="display: inline-block; width: 12px; height: 12px; background: ${companyColors[company]}; border-radius: 50%; margin-right: 8px;"></span>
+                            <span style="font-size: 12px;">${company}</span>
+                        </div>
+                    `;
+                });
+                
+                div.innerHTML = legendContent;
+                return div;
+            };
+            legend.addTo(map);
+
+            // Invalidate size after a short delay to ensure proper rendering
+            setTimeout(() => {
+                map.invalidateSize();
+            }, 100);
+            }, 200); // Close the setTimeout for map initialization
         }
     </script>
 </body>

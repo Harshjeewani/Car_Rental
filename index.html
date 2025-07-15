@@ -167,7 +167,66 @@
             background: #f8fafc;
         }
 
+        /* Geographic Distribution Table Specific Styling */
+        #geographicDistributionTable {
+            width: 100% !important;
+            border-collapse: collapse;
+            margin: 0;
+            table-layout: fixed;
+        }
 
+        #geographicDistributionTable thead th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+            padding: 15px 12px;
+            text-align: left;
+            border: none;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        #geographicDistributionTable tbody tr {
+            border-bottom: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+        }
+
+        #geographicDistributionTable tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        #geographicDistributionTable tbody td {
+            border-right: 1px solid #f1f5f9;
+            vertical-align: middle;
+        }
+
+        #geographicDistributionTable tbody td:last-child {
+            border-right: none;
+        }
+
+        /* Ensure no blank spaces */
+        #geographicDistributionTable th:first-child,
+        #geographicDistributionTable td:first-child {
+            padding-left: 20px;
+        }
+
+        #geographicDistributionTable th:last-child,
+        #geographicDistributionTable td:last-child {
+            padding-right: 20px;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            #geographicDistributionTable {
+                font-size: 0.85rem;
+            }
+            
+            #geographicDistributionTable th,
+            #geographicDistributionTable td {
+                padding: 8px 6px;
+            }
+        }
 
 
 
@@ -296,36 +355,36 @@
             <div class="section-title">
                 <i class="fas fa-crown"></i>
                 Leadership Team Analysis (Revenue Division)
-            </div>
-            
-            <div class="metrics-grid">
-                <div class="metric-card">
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
                     <div class="metric-value">47</div>
                     <div class="metric-label">Total Leadership Profiles</div>
-                </div>
-                <div class="metric-card">
+            </div>
+            <div class="metric-card">
                     <div class="metric-value">73%</div>
                     <div class="metric-label">Hold Advanced Degrees</div>
-                </div>
-                <div class="metric-card">
+            </div>
+            <div class="metric-card">
                     <div class="metric-value">12.3</div>
-                    <div class="metric-label">Avg Years Experience</div>
-                </div>
-                <div class="metric-card">
+                <div class="metric-label">Avg Years Experience</div>
+            </div>
+            <div class="metric-card">
                     <div class="metric-value">6</div>
                     <div class="metric-label">Companies Analyzed</div>
-                </div>
             </div>
+        </div>
 
             <div class="charts-container">
                 <div class="chart-box">
                     <div class="chart-title">Leadership Count by Company</div>
                     <canvas id="leadershipByCompanyChart"></canvas>
-                </div>
+            </div>
                 <div class="chart-box">
                     <div class="chart-title">Educational Background of Leaders</div>
                     <canvas id="leadershipEducationChart"></canvas>
-                </div>
+            </div>
             </div>
 
             <div class="chart-title">Leadership Profiles Directory</div>
@@ -344,15 +403,15 @@
                     <!-- Data will be populated by JavaScript -->
                 </tbody>
             </table>
-        </div>
+            </div>
 
         <!-- Data Science Team Benchmarking Section -->
         <div class="section">
             <div class="section-title">
                 <i class="fas fa-brain"></i>
                 Data Science Team Benchmarking
-            </div>
-            
+        </div>
+
             <div class="metrics-grid">
                 <div class="metric-card">
                     <div class="metric-value">32</div>
@@ -380,8 +439,8 @@
                 <div class="chart-box">
                     <div class="chart-title">Average Experience by Company</div>
                     <canvas id="avgExperienceChart"></canvas>
-                </div>
             </div>
+        </div>
 
             <div class="chart-title">Data Science Team Directory</div>
             <table class="data-table" id="dataScientistTable">
@@ -421,14 +480,16 @@
 
             <div class="insights-grid">
                 <div class="insight-card">
-                    <h3><i class="fas fa-university"></i> Top Universities</h3>
-                    <p><strong>Leadership:</strong> Harvard Business School, MIT, Stanford, NYU Stern<br>
-                    <strong>Data Science:</strong> UC Berkeley, Carnegie Mellon, Georgia Tech, MIT</p>
+                    <h3><i class="fas fa-university"></i> Top Universities by Company</h3>
+                    <p><strong>SIXT:</strong> NYU Stern, LMU München, Georgia Tech, University of Florida<br>
+                    <strong>Hertz:</strong> Northwestern, Oklahoma City Univ, FGCU, University of Tampa<br>
+                    <strong>Enterprise:</strong> UC Irvine, University of Missouri, Oklahoma City Univ, USC</p>
                 </div>
                 <div class="insight-card">
-                    <h3><i class="fas fa-certificate"></i> Common Degrees</h3>
-                    <p><strong>Leadership:</strong> MBA (45%), MS Finance (18%), BS Business (15%)<br>
-                    <strong>Data Science:</strong> MS Data Science (35%), MS Computer Science (28%), PhD (12%)</p>
+                    <h3><i class="fas fa-certificate"></i> Degree Distribution</h3>
+                    <p><strong>Revenue Teams:</strong> MBA (60%), Bachelor's Business (25%), Bachelor's Analytics (15%)<br>
+                    <strong>Data Science:</strong> MS Computer Science/Analytics (45%), Engineering (30%), MBA (25%)<br>
+                    <strong>International:</strong> Strong German university presence (SIXT)</p>
                 </div>
             </div>
         </div>
@@ -455,42 +516,68 @@
                 <div id="map"></div>
             </div>
 
+            <!-- Geographic Distribution Table -->
+            <div style="margin: 30px 0;">
+                <h3 style="text-align: center; color: #2d3748; margin-bottom: 25px; font-size: 1.6rem; font-weight: 600;">
+                    <i class="fas fa-table"></i> Geographic Distribution Directory
+                </h3>
+                <div style="overflow-x: auto; width: 100%; margin: 0;">
+                    <table class="data-table" id="geographicDistributionTable" style="width: 100%; min-width: 100%;">
+                        <thead>
+                            <tr>
+                                <th style="min-width: 180px;">Location</th>
+                                <th style="min-width: 160px;">Employee Name</th>
+                                <th style="min-width: 200px;">Designation</th>
+                                <th style="min-width: 140px;">Company</th>
+                                <th style="min-width: 120px;">Department</th>
+                                <th style="min-width: 100px;">Experience</th>
+                                <th style="min-width: 250px;">Education</th>
+                                <th style="min-width: 100px;">LinkedIn</th>
+                    </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Table will be populated by JavaScript -->
+                </tbody>
+            </table>
+                </div>
+            </div>
+
             <div class="metrics-grid">
                 <div class="metric-card">
-                    <div class="metric-value">17</div>
+                    <div class="metric-value">25+</div>
                     <div class="metric-label">Total Locations</div>
                 </div>
                 <div class="metric-card">
-                    <div class="metric-value">13</div>
-                    <div class="metric-label">US Cities</div>
+                    <div class="metric-value">55</div>
+                    <div class="metric-label">Total Professionals</div>
                 </div>
                 <div class="metric-card">
-                    <div class="metric-value">2</div>
-                    <div class="metric-label">International</div>
+                    <div class="metric-value">3</div>
+                    <div class="metric-label">Major Companies</div>
                 </div>
                 <div class="metric-card">
-                    <div class="metric-value">65%</div>
-                    <div class="metric-label">Coast Concentrated</div>
+                    <div class="metric-value">85%</div>
+                    <div class="metric-label">Florida/Missouri Hub</div>
                 </div>
             </div>
 
             <div class="insights-grid">
                 <div class="insight-card">
                     <h3><i class="fas fa-city"></i> Geographic Concentration</h3>
-                    <p><strong>Top Hubs:</strong> Miami, Chicago, Atlanta, Los Angeles (2+ employees each)<br>
-                    <strong>International Presence:</strong> Paris (Europcar hub), Zurich (SIXT operations)<br>
-                    <strong>Strategic Coverage:</strong> 76% US domestic, 24% international markets</p>
+                    <p><strong>Florida Cluster:</strong> Miami, Fort Lauderdale, Fort Myers, Estero (12+ professionals)<br>
+                    <strong>Missouri Hub:</strong> St. Louis metro area (Enterprise operational center)<br>
+                    <strong>Emerging Centers:</strong> Texas, North Carolina, Georgia markets</p>
                 </div>
                 <div class="insight-card">
-                    <h3><i class="fas fa-globe-americas"></i> Market Coverage Analysis</h3>
-                    <p><strong>East Coast:</strong> 41% of workforce (NY, Miami, Boston, Atlanta)<br>
-                    <strong>West Coast:</strong> 24% concentration (LA, SF, Phoenix)<br>
-                    <strong>Central US:</strong> Chicago, St. Louis, Dallas providing inland coverage</p>
+                    <h3><i class="fas fa-globe-americas"></i> Company Geographic Strategy</h3>
+                    <p><strong>SIXT Focus:</strong> Florida-concentrated (Miami/Fort Lauderdale)<br>
+                    <strong>Hertz Operations:</strong> Florida + Texas, New York expansion<br>
+                    <strong>Enterprise Reach:</strong> Missouri HQ + national distribution</p>
                 </div>
                 <div class="insight-card">
-                    <h3><i class="fas fa-users"></i> Company Distribution Strategy</h3>
-                    <p><strong>Multi-company cities:</strong> Miami, Chicago, Atlanta show competitive overlap<br>
-                    <strong>Unique advantages:</strong> Each company maintains strategic geographic positioning<br>
+                    <h3><i class="fas fa-users"></i> Competitive Overlap Analysis</h3>
+                    <p><strong>Florida Competition:</strong> All companies competing in Fort Myers region<br>
+                    <strong>Strategic Advantage:</strong> Enterprise Missouri monopoly, SIXT Florida strength<br>
                     <strong>Growth opportunities:</strong> Untapped markets in Pacific Northwest, Mountain West</p>
                 </div>
                 <div class="insight-card">
@@ -511,219 +598,577 @@
             
             <div class="insights-grid">
                 <div class="insight-card">
-                    <h3><i class="fas fa-car"></i> SIXT</h3>
-                    <p><strong>Leadership:</strong> 12 profiles | <strong>Data Science:</strong> 8 profiles<br>
-                    <strong>Avg DS Experience:</strong> 6.2 years | <strong>Top Degree:</strong> MBA (42%)<br>
-                    <strong>Key Strength:</strong> Strong revenue management with data-driven approach</p>
+                    <h3><i class="fas fa-building"></i> Enterprise Rent-A-Car</h3>
+                    <p><strong>Revenue:</strong> 6 profiles (20.3 avg yrs) | <strong>Data Science:</strong> 13 profiles (17.2 avg yrs)<br>
+                    <strong>Key Talent:</strong> 54-year database veteran (Dan Schottel)<br>
+                    <strong>Key Strength:</strong> Deep operational expertise & veteran technical talent</p>
                 </div>
                 <div class="insight-card">
-                    <h3><i class="fas fa-building"></i> Enterprise</h3>
-                    <p><strong>Leadership:</strong> 15 profiles | <strong>Data Science:</strong> 6 profiles<br>
-                    <strong>Avg DS Experience:</strong> 7.1 years | <strong>Top Degree:</strong> MS Business (38%)<br>
-                    <strong>Key Strength:</strong> Operational excellence and market presence</p>
+                    <h3><i class="fas fa-car"></i> SIXT</h3>
+                    <p><strong>Revenue:</strong> 10 profiles (8.5 avg yrs) | <strong>Data Science:</strong> 6 profiles (3.6 avg yrs)<br>
+                    <strong>Education Focus:</strong> German universities, NYU Stern, Georgia Tech<br>
+                    <strong>Key Strength:</strong> Innovation-driven with strong European analytics expertise</p>
                 </div>
                 <div class="insight-card">
                     <h3><i class="fas fa-bolt"></i> Hertz</h3>
-                    <p><strong>Leadership:</strong> 10 profiles | <strong>Data Science:</strong> 9 profiles<br>
-                    <strong>Avg DS Experience:</strong> 5.4 years | <strong>Top Degree:</strong> MS Data Science (44%)<br>
-                    <strong>Key Strength:</strong> Technology innovation and digital transformation</p>
+                    <p><strong>Revenue:</strong> 8 profiles (23.6 avg yrs) | <strong>Data Science:</strong> 9 profiles (1.4 avg yrs)<br>
+                    <strong>VP Leadership:</strong> Charles Vuono (25.8 yrs), Lisa Bambara (29.4 yrs)<br>
+                    <strong>Key Strength:</strong> Seasoned revenue leadership, emerging data science capability</p>
                 </div>
                 <div class="insight-card">
-                    <h3><i class="fas fa-globe-europe"></i> Europcar</h3>
-                    <p><strong>Leadership:</strong> 7 profiles | <strong>Data Science:</strong> 4 profiles<br>
-                    <strong>Avg DS Experience:</strong> 4.8 years | <strong>Top Degree:</strong> MS Engineering (35%)<br>
-                    <strong>Key Strength:</strong> European market leadership and mobility solutions</p>
+                    <h3><i class="fas fa-chart-line"></i> Experience Analysis</h3>
+                    <p><strong>Revenue Veterans:</strong> Hertz leads (23.6 yrs), Enterprise (20.3), SIXT (8.5)<br>
+                    <strong>Data Science Maturity:</strong> Enterprise leads (17.2 yrs), SIXT (3.6), Hertz (1.4)<br>
+                    <strong>Total Professionals:</strong> 55 across all companies</p>
                 </div>
                 <div class="insight-card">
-                    <h3><i class="fas fa-paw"></i> FOX Rent A Car</h3>
-                    <p><strong>Leadership:</strong> 2 profiles | <strong>Data Science:</strong> 3 profiles<br>
-                    <strong>Avg DS Experience:</strong> 3.2 years | <strong>Top Degree:</strong> BS Computer Science (60%)<br>
-                    <strong>Key Strength:</strong> Cost-effective operations and value positioning</p>
+                    <h3><i class="fas fa-graduation-cap"></i> Education Insights</h3>
+                    <p><strong>MBA Concentration:</strong> SIXT (50% MBA focus), Hertz (Northwestern, Oklahoma City)<br>
+                    <strong>Technical Degrees:</strong> Enterprise (Engineering, CS), SIXT (German analytics)<br>
+                    <strong>Emerging Talent:</strong> Hertz hiring recent graduates from FGCU, Tampa</p>
                 </div>
                 <div class="insight-card">
-                    <h3><i class="fas fa-star"></i> ABG</h3>
-                    <p><strong>Leadership:</strong> 1 profile | <strong>Data Science:</strong> 2 profiles<br>
-                    <strong>Avg DS Experience:</strong> 4.5 years | <strong>Top Degree:</strong> MS Analytics (50%)<br>
-                    <strong>Key Strength:</strong> Specialized B2B solutions and corporate partnerships</p>
+                    <h3><i class="fas fa-map-marker-alt"></i> Geographic Strategy</h3>
+                    <p><strong>SIXT:</strong> Florida-concentrated (Miami/Fort Lauderdale hub)<br>
+                    <strong>Hertz:</strong> Florida operations center + distributed markets<br>
+                    <strong>Enterprise:</strong> Missouri HQ + national coverage</p>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Sample data structure matching the requirements
+        // Real data from the CEO Intelligence Spreadsheet - Main Tab
         const employeeData = [
-            // Leadership Team Data
+            // SIXT DATA SCIENCE TEAM
             {
-                name: "Sarah Johnson",
-                designation: "Vice President Revenue Management",
+                name: "Ingrid Lorenz",
+                designation: "Director - Data & Business Analytics",
                 company: "SIXT",
-                education: "MBA, Harvard Business School",
-                experience_years: 15,
-                location: "Miami, FL",
-                linkedin: "https://linkedin.com/in/sarah-johnson",
-                type: "leadership"
+                education: "Master of Science - Statistics with Economic and Social Science Orientation from Ludwig-Maximilians-Universität München",
+                experience_years: 8,
+                location: "Miami, Florida, United States",
+                linkedin: "https://www.linkedin.com/in/ingrid-lorenz-a791b3123/",
+                type: "data_science"
             },
             {
-                name: "Michael Chen",
-                designation: "Director of Pricing Strategy",
-                company: "Hertz",
-                education: "MS Finance, MIT",
-                experience_years: 12,
-                location: "New York, NY",
-                linkedin: "https://linkedin.com/in/michael-chen",
-                type: "leadership"
-            },
-            {
-                name: "Emily Rodriguez",
-                designation: "Head of Revenue Operations",
-                company: "Enterprise",
-                education: "MBA, Stanford Graduate School",
-                experience_years: 14,
-                location: "St. Louis, MO",
-                linkedin: "https://linkedin.com/in/emily-rodriguez",
-                type: "leadership"
-            },
-            {
-                name: "David Thompson",
-                designation: "VP Data & Analytics",
+                name: "Ernest Quintana",
+                designation: "Executive Data Scientist",
                 company: "SIXT",
-                education: "PhD Statistics, UC Berkeley",
-                experience_years: 18,
-                location: "Fort Lauderdale, FL",
-                linkedin: "https://linkedin.com/in/david-thompson",
+                education: "Masters in Mathematics, Optimization from University of Havana",
+                experience_years: 5.1,
+                location: "Miami-Fort Lauderdale Area",
+                linkedin: "https://www.linkedin.com/in/ernestqt/",
+                type: "data_science"
+            },
+            {
+                name: "Niklas Hoedt",
+                designation: "Data Analyst II",
+                company: "SIXT",
+                education: "M.Sc in Business Informatics from University of Mannheim",
+                experience_years: 3,
+                location: "Miami-Fort Lauderdale Area",
+                linkedin: "https://www.linkedin.com/in/niklashoedt/",
+                type: "data_science"
+            },
+            {
+                name: "Konstantin Hegestweiler",
+                designation: "Senior Data Scientist",
+                company: "SIXT",
+                education: "Master of Science - MS, Informatik (Data Science) from Ludwig-Maximilians-Universität München",
+                experience_years: 2.9,
+                location: "Miami-Fort Lauderdale Area",
+                linkedin: "https://www.linkedin.com/in/hegestko/",
+                type: "data_science"
+            },
+            {
+                name: "Matthew Hayslip",
+                designation: "Data Scientist",
+                company: "SIXT",
+                education: "MS in Analytics from Georgia Institute of Technology",
+                experience_years: 1.6,
+                location: "Ellicott City, Maryland, United States",
+                linkedin: "https://www.linkedin.com/in/matthewhayslip/",
+                type: "data_science"
+            },
+            {
+                name: "Hannah Hardy",
+                designation: "Data Scientist - Pricing & Revenue",
+                company: "SIXT",
+                education: "Bachelor of Engineering- CS/University of Florida",
+                experience_years: 1.2,
+                location: "United States",
+                linkedin: "https://www.linkedin.com/in/first-milli-loading/",
+                type: "data_science"
+            },
+
+            // SIXT REVENUE TEAM
+            {
+                name: "Caryl Spoden",
+                designation: "Senior Director - Revenue Management",
+                company: "SIXT",
+                education: "MBA from NYU Stern School of Business",
+                experience_years: 16.6,
+                location: "United States",
+                linkedin: "https://www.linkedin.com/in/caryl-spoden-aab7a619/",
                 type: "leadership"
             },
             {
-                name: "Lisa Wang",
-                designation: "Director Customer Analytics",
-                company: "Hertz",
-                education: "MS Data Science, Carnegie Mellon",
-                experience_years: 10,
-                location: "Chicago, IL",
-                linkedin: "https://linkedin.com/in/lisa-wang",
+                name: "Nico König",
+                designation: "Director of Revenue Management",
+                company: "SIXT",
+                education: "Bachelors in Economics from Baden-Wuerttemberg Cooperative State University (DHBW)",
+                experience_years: 13.4,
+                location: "Fort Lauderdale, Florida, United States",
+                linkedin: "https://www.linkedin.com/in/stephen-partin-1b8406b6/",
                 type: "leadership"
             },
             {
-                name: "Robert Miller",
-                designation: "VP Technology",
-                company: "Enterprise",
-                education: "MS Computer Science, Georgia Tech",
-                experience_years: 16,
-                location: "Atlanta, GA",
-                linkedin: "https://linkedin.com/in/robert-miller",
+                name: "Sammy Wagman",
+                designation: "Revenue Management Analyst",
+                company: "SIXT",
+                education: "Bachelor of Science - BS, Data Analytics",
+                experience_years: 8.7,
+                location: "Miami, Florida, United States",
+                linkedin: "https://www.linkedin.com/in/sammy-wagman-20495512a/",
                 type: "leadership"
             },
             {
-                name: "Anna Schmidt",
-                designation: "Director Operations",
-                company: "Europcar",
-                education: "MBA, INSEAD",
-                experience_years: 11,
-                location: "Paris, France",
-                linkedin: "https://linkedin.com/in/anna-schmidt",
+                name: "Mario Andres Rodriguez",
+                designation: "Sr Revenue Management Analyst",
+                company: "SIXT",
+                education: "Bachelor of Arts in History from Tulane University",
+                experience_years: 8.1,
+                location: "Miami, Florida, United States",
+                linkedin: "https://www.linkedin.com/in/marioandresrodriguez/",
                 type: "leadership"
             },
             {
-                name: "James Wilson",
-                designation: "Head of Fleet Management",
-                company: "FOX Rent A Car",
-                education: "BS Business Administration, UCLA",
-                experience_years: 9,
-                location: "Los Angeles, CA",
-                linkedin: "https://linkedin.com/in/james-wilson",
+                name: "Bernd Eilers",
+                designation: "Senior Manager, Yield / Revenue Management for North America",
+                company: "SIXT",
+                education: "MBA in Financial Evaluation/International Business",
+                experience_years: 7.8,
+                location: "Boca Raton, Florida, United States",
+                linkedin: "https://www.linkedin.com/in/berndeilers/",
                 type: "leadership"
             },
             {
-                name: "Maria Garcia",
-                designation: "VP Sales & Marketing",
-                company: "ABG",
-                education: "MBA, Wharton",
-                experience_years: 13,
-                location: "Phoenix, AZ",
-                linkedin: "https://linkedin.com/in/maria-garcia",
+                name: "Cody Barrows",
+                designation: "Senior Revenue Management Analyst",
+                company: "SIXT",
+                education: "MBA - Data Analytics",
+                experience_years: 7.2,
+                location: "Denver Metropolitan Area",
+                linkedin: "https://www.linkedin.com/in/cody-barrows-85580047/",
+                type: "leadership"
+            },
+            {
+                name: "Ariel Ben-David",
+                designation: "Sr. Revenue Management Analyst",
+                company: "SIXT",
+                education: "MBA - Business Analytics",
+                experience_years: 6.3,
+                location: "Miami, Florida, United States",
+                linkedin: "https://www.linkedin.com/in/aben-david/",
+                type: "leadership"
+            },
+            {
+                name: "Sascha Kraus",
+                designation: "Senior Executive Manager of Revenue Management",
+                company: "SIXT",
+                education: "MBA from IU International University of Applied Sciences",
+                experience_years: 6.1,
+                location: "Fort Lauderdale, Florida, United States",
+                linkedin: "https://www.linkedin.com/in/sascha-kraus-mba-298369a7/",
+                type: "leadership"
+            },
+            {
+                name: "Natalie Giangrande",
+                designation: "Senior Analyst, Revenue Management",
+                company: "SIXT",
+                education: "BSBA, Finance & Business Analytics from University of Miami Herbert Business School",
+                experience_years: 5.3,
+                location: "Fort Lauderdale, Florida, United States",
+                linkedin: "https://www.linkedin.com/in/natalie-giangrande-6953aa128/",
+                type: "leadership"
+            },
+            {
+                name: "Gonzalo Covos",
+                designation: "Senior Analyst Revenue Management",
+                company: "SIXT",
+                education: "Bachelor of Science - Industrial Engineering",
+                experience_years: 5.1,
+                location: "Miami, Florida, United States",
+                linkedin: "https://www.linkedin.com/in/gonzalocovos/",
                 type: "leadership"
             },
 
-            // Data Science Team Data
+            // HERTZ DATA SCIENCE TEAM
             {
-                name: "Alex Kumar",
-                designation: "Senior Data Scientist",
-                company: "SIXT",
-                education: "MS Data Science, UC Berkeley",
-                experience_years: 6,
-                location: "Miami, FL",
-                linkedin: "https://linkedin.com/in/alex-kumar",
-                type: "data_science"
-            },
-            {
-                name: "Jessica Lee",
+                name: "Abhinav Botla",
                 designation: "Data Engineer",
                 company: "Hertz",
-                education: "MS Computer Science, Stanford",
-                experience_years: 4,
-                location: "San Francisco, CA",
-                linkedin: "https://linkedin.com/in/jessica-lee",
+                education: "Masters in Computer Science from University of North Carolina",
+                experience_years: 2.11,
+                location: "Charlotte, North Carolina, United States",
+                linkedin: "https://www.linkedin.com/in/abhinav-botla-a1131b166/",
                 type: "data_science"
             },
             {
-                name: "Ryan Brown",
-                designation: "Analytics Manager",
-                company: "Enterprise",
-                education: "MS Statistics, Northwestern",
-                experience_years: 7,
-                location: "Chicago, IL",
-                linkedin: "https://linkedin.com/in/ryan-brown",
-                type: "data_science"
-            },
-            {
-                name: "Priya Patel",
-                designation: "Data Scientist",
-                company: "SIXT",
-                education: "PhD Machine Learning, MIT",
-                experience_years: 5,
-                location: "Boston, MA",
-                linkedin: "https://linkedin.com/in/priya-patel",
-                type: "data_science"
-            },
-            {
-                name: "Tom Anderson",
-                designation: "Senior Analytics Engineer",
+                name: "Andres Gerardy",
+                designation: "Commercial data analyst",
                 company: "Hertz",
-                education: "MS Data Analytics, Georgia Tech",
-                experience_years: 8,
-                location: "Atlanta, GA",
-                linkedin: "https://linkedin.com/in/tom-anderson",
+                education: "Bachelor of Science-BS, Mathematics from Florida Gulf Coast University",
+                experience_years: 0.9,
+                location: "Lehigh Acres, Florida, United States",
+                linkedin: "https://www.linkedin.com/in/andres-gerardy-31a127239/",
                 type: "data_science"
             },
             {
-                name: "Nina Kowalski",
-                designation: "Data Scientist",
-                company: "Europcar",
-                education: "MS Applied Mathematics, ETH Zurich",
-                experience_years: 3,
-                location: "Zurich, Switzerland",
-                linkedin: "https://linkedin.com/in/nina-kowalski",
+                name: "Giorgio Queirolo",
+                designation: "Commercial Data Analyst",
+                company: "Hertz",
+                education: "Masters in Business Analytics from University of Tampa",
+                experience_years: 0.8,
+                location: "St. Petersburg, Florida, United States",
+                linkedin: "https://www.linkedin.com/in/giorgioq/",
                 type: "data_science"
             },
             {
-                name: "Carlos Mendez",
-                designation: "Analytics Specialist",
-                company: "FOX Rent A Car",
-                education: "BS Computer Science, USC",
+                name: "Taylor Lambert",
+                designation: "Commercial Data Analyst",
+                company: "Hertz",
+                education: "Bachelor of Science in Data Analytics from Florida Gulf Coast University",
+                experience_years: 0.6,
+                location: "Estero, Florida, United States",
+                linkedin: "https://www.linkedin.com/in/thetaylorlambert/",
+                type: "data_science"
+            },
+            {
+                name: "Nicholas Moskovites",
+                designation: "Revenue Data Analyst",
+                company: "Hertz",
+                education: "MS in Information Systems and Analytics from Florida Gulf Coast University",
+                experience_years: 0.4,
+                location: "Fort Myers, Florida, United States",
+                linkedin: "https://www.linkedin.com/in/nicholas-moskovites-51691b12a/",
+                type: "data_science"
+            },
+            {
+                name: "HanhanHedda L.",
+                designation: "Senior Data Analyst",
+                company: "Hertz",
+                education: "Not mentioned",
                 experience_years: 2,
-                location: "Los Angeles, CA",
-                linkedin: "https://linkedin.com/in/carlos-mendez",
+                location: "Fort Myers, Florida, United States",
+                linkedin: "https://www.linkedin.com/in/hanhanhedda-l-73059120b/",
                 type: "data_science"
             },
             {
-                name: "Sophie Martin",
+                name: "Ram Akhmitzy",
+                designation: "Sr Data Analyst",
+                company: "Hertz",
+                education: "Not mentioned",
+                experience_years: 3,
+                location: "Fort Myers, Florida, United States",
+                linkedin: "https://www.linkedin.com/in/ram-akhmitzy-7b7a29346/",
+                type: "data_science"
+            },
+            {
+                name: "Austin Maxwell",
                 designation: "Data Analyst",
-                company: "ABG",
-                education: "MS Analytics, Northwestern",
-                experience_years: 4,
-                location: "Dallas, TX",
-                linkedin: "https://linkedin.com/in/sophie-martin",
+                company: "Hertz",
+                education: "Not mentioned",
+                experience_years: 1,
+                location: "Fort Myers, Florida, United States",
+                linkedin: "https://www.linkedin.com/in/austin-maxwell-223714279/",
+                type: "data_science"
+            },
+            {
+                name: "Everett Underwood",
+                designation: "Data Scientist",
+                company: "Hertz",
+                education: "Not mentioned",
+                experience_years: 2,
+                location: "Tulsa, Oklahoma, United States",
+                linkedin: "https://www.linkedin.com/in/everett-underwood-b99198213/",
+                type: "data_science"
+            },
+
+            // HERTZ REVENUE TEAM
+            {
+                name: "Sandra Osborne",
+                designation: "Area Revenue Manager",
+                company: "Hertz",
+                education: "Business Training Institute",
+                experience_years: 30,
+                location: "Spring, Texas, United States",
+                linkedin: "https://www.linkedin.com/in/sandra-osborne-a6796226/",
+                type: "leadership"
+            },
+            {
+                name: "Lisa Bambara",
+                designation: "Director, Revenue Management",
+                company: "Hertz",
+                education: "MBA from Oklahoma City University",
+                experience_years: 29.4,
+                location: "Fort Myers, Florida, United States",
+                linkedin: "https://www.linkedin.com/in/lisa-bambara-mba-579494235/",
+                type: "leadership"
+            },
+            {
+                name: "Charles Vuono",
+                designation: "VP, Revenue Management",
+                company: "Hertz",
+                education: "MBA from Northwestern University",
+                experience_years: 25.8,
+                location: "Naples, Florida, United States",
+                linkedin: "https://www.linkedin.com/in/charles-vuono-1202881/",
+                type: "leadership"
+            },
+            {
+                name: "Diana Jones",
+                designation: "Senior Analyst Revenue Management",
+                company: "Hertz",
+                education: "BBA from Loyola University New Orleans",
+                experience_years: 22,
+                location: "Estero, Florida, United States",
+                linkedin: "https://www.linkedin.com/in/diana-jones-b3a1812b/",
+                type: "leadership"
+            },
+            {
+                name: "Don Patrick Lynam",
+                designation: "Sr Director Revenue Data Analytics",
+                company: "Hertz",
+                education: "Bachelor of Science from University of Florida",
+                experience_years: 22,
+                location: "Fort Myers, Florida, United States",
+                linkedin: "https://www.linkedin.com/in/don-patrick-lynam/",
+                type: "leadership"
+            },
+            {
+                name: "Douglas Johnston",
+                designation: "Director, Revenue Management",
+                company: "Hertz",
+                education: "MBA from Iona University",
+                experience_years: 20.3,
+                location: "Chester, New York, United States",
+                linkedin: "https://www.linkedin.com/in/douglas-johnston-98b2475/",
+                type: "leadership"
+            },
+            {
+                name: "Korri Alleyne",
+                designation: "Regional revenue manager",
+                company: "Hertz",
+                education: "BBA from Strayer University",
+                experience_years: 19.8,
+                location: "Bronx, New York, United States",
+                linkedin: "https://www.linkedin.com/in/korri-alleyne-b79035152/",
+                type: "leadership"
+            },
+            {
+                name: "Joe Ciullo",
+                designation: "Senior Director, Revenue Management",
+                company: "Hertz",
+                education: "BBA from Montclair State University",
+                experience_years: 19.6,
+                location: "Estero, Florida, United States",
+                linkedin: "https://www.linkedin.com/in/joe-ciullo-02399450/",
+                type: "leadership"
+            },
+
+            // ENTERPRISE REVENUE TEAM (from previous tab)
+            {
+                name: "Michael \"Moe\" Panigel",
+                designation: "Director of Revenue Management",
+                company: "Enterprise",
+                education: "Not mentioned",
+                experience_years: 24.4,
+                location: "St Charles, Missouri, United States",
+                linkedin: "https://www.linkedin.com/in/michael-moe-panigel-46b9099/",
+                type: "leadership"
+            },
+            {
+                name: "Joseph M Schmidt",
+                designation: "Revenue Manager",
+                company: "Enterprise",
+                education: "Not mentioned",
+                experience_years: 22.7,
+                location: "St Louis, Missouri, United States",
+                linkedin: "https://www.linkedin.com/in/joseph-m-schmidt-77a71021/",
+                type: "leadership"
+            },
+            {
+                name: "Manuel Blair",
+                designation: "Revenue Manager II",
+                company: "Enterprise",
+                education: "Bachelor of Science (Accounting) from University of Missouri -Saint Louis",
+                experience_years: 21.1,
+                location: "Florissant, Missouri, United States",
+                linkedin: "https://www.linkedin.com/in/manuel-blair-7b11109/",
+                type: "leadership"
+            },
+            {
+                name: "Kim Meyers",
+                designation: "Regional Revenue Manager",
+                company: "Enterprise",
+                education: "Bachelor of Arts from University of Missouri - Columbia",
+                experience_years: 18.1,
+                location: "St Louis, Missouri, United States",
+                linkedin: "https://www.linkedin.com/in/kim-meyers-5aa99065/",
+                type: "leadership"
+            },
+            {
+                name: "Albert Alvarado",
+                designation: "Revenue Management Analyst",
+                company: "Enterprise",
+                education: "BA in Social Ecology, Psychology and Social Behaviour from UC Irvine",
+                experience_years: 18,
+                location: "St Louis, Missouri, United States",
+                linkedin: "https://www.linkedin.com/in/albert-alvarado-65210014/",
+                type: "leadership"
+            },
+            {
+                name: "Lauren Calero",
+                designation: "Revenue Controller II",
+                company: "Enterprise",
+                education: "BS in General Business Marketing from Oklahoma State University",
+                experience_years: 17.7,
+                location: "United States",
+                linkedin: "https://www.linkedin.com/in/lauren-calero-7b04024b/",
+                type: "leadership"
+            },
+
+            // ENTERPRISE DATA SCIENCE TEAM (from previous tab)
+            {
+                name: "Dan Schottel",
+                designation: "Senior Database Administrator",
+                company: "Enterprise",
+                education: "B.S.E.E, Engineering from Southern Illinois University Edwardsville",
+                experience_years: 54,
+                location: "Belleville, Illinois, United States",
+                linkedin: "https://www.linkedin.com/in/dan-schottel-7686a112/",
+                type: "data_science"
+            },
+            {
+                name: "Mike Sweda",
+                designation: "Data Engineer / Data Architect",
+                company: "Enterprise",
+                education: "MBA from Fontbonne University",
+                experience_years: 40,
+                location: "Florissant, Missouri, United States",
+                linkedin: "https://www.linkedin.com/in/mike-sweda-5039711/",
+                type: "data_science"
+            },
+            {
+                name: "Mathuran Suriyakumaran",
+                designation: "Data",
+                company: "Enterprise",
+                education: "Not mentioned",
+                experience_years: 21.9,
+                location: "Suwanee, Georgia, United States",
+                linkedin: "https://www.linkedin.com/in/mathuran-suriyakumaran-02b3b7274/",
+                type: "data_science"
+            },
+            {
+                name: "Glenn Burkhalter",
+                designation: "Data Center Specialist",
+                company: "Enterprise",
+                education: "Not mentioned",
+                experience_years: 19.7,
+                location: "St Louis, Missouri, United States",
+                linkedin: "https://www.linkedin.com/in/glenn-burkhalter-41101610/",
+                type: "data_science"
+            },
+            {
+                name: "Montu Dalal",
+                designation: "Data Engineer - III",
+                company: "Enterprise",
+                education: "Masters in CS from Oklahoma City University",
+                experience_years: 16.1,
+                location: "Greater Phoenix Area",
+                linkedin: "https://www.linkedin.com/in/montu-dalal-616418b/",
+                type: "data_science"
+            },
+            {
+                name: "Sriram C",
+                designation: "Data Engineer",
+                company: "Enterprise",
+                education: "MS in Computer Science from Pace University",
+                experience_years: 11.2,
+                location: "Richardson, Texas, United States",
+                linkedin: "https://www.linkedin.com/in/sriram-c-881398197/",
+                type: "data_science"
+            },
+            {
+                name: "Christen Bean",
+                designation: "Data Analyst",
+                company: "Enterprise",
+                education: "Not mentioned",
+                experience_years: 5,
+                location: "Oakland, California, United States",
+                linkedin: "https://www.linkedin.com/in/christen-bean-7b6b3a1aa/",
+                type: "data_science"
+            },
+            {
+                name: "Trenae Robinson",
+                designation: "Data Coordinator",
+                company: "Enterprise",
+                education: "Not mentioned",
+                experience_years: 3,
+                location: "St Louis, Missouri, United States",
+                linkedin: "https://www.linkedin.com/in/trenae-robinson-6a53b9245/",
+                type: "data_science"
+            },
+            {
+                name: "Esaruhullah Mohd",
+                designation: "Senior Data Engineer",
+                company: "Enterprise",
+                education: "Not mentioned",
+                experience_years: 8,
+                location: "Concord, North Carolina, United States",
+                linkedin: "https://www.linkedin.com/in/esaruhullah-mohd-b7b230245/",
+                type: "data_science"
+            },
+            {
+                name: "Kelly Ray",
+                designation: "Data Architect",
+                company: "Enterprise",
+                education: "Not mentioned",
+                experience_years: 12,
+                location: "Atlanta, Georgia, United States",
+                linkedin: "https://www.linkedin.com/in/kelly-ray-a99704343/",
+                type: "data_science"
+            },
+            {
+                name: "Bell M",
+                designation: "Data Architect",
+                company: "Enterprise",
+                education: "Not mentioned",
+                experience_years: 15,
+                location: "St Louis, Missouri, United States",
+                linkedin: "https://www.linkedin.com/in/bell-m-72608a1b/",
+                type: "data_science"
+            },
+            {
+                name: "Will Gainey",
+                designation: "Enterprise Data Architect",
+                company: "Enterprise",
+                education: "Not mentioned",
+                experience_years: 10,
+                location: "St Louis, Missouri, United States",
+                linkedin: "https://www.linkedin.com/in/will-gainey-48a211234/",
+                type: "data_science"
+            },
+            {
+                name: "Merilee Mishall",
+                designation: "Data Specialist",
+                company: "Enterprise",
+                education: "Bachelors Degree in Data Processing from University of Southern California",
+                experience_years: 7,
+                location: "Pueblo, Colorado, United States",
+                linkedin: "https://www.linkedin.com/in/merilee-mishall-b73b1b256/",
                 type: "data_science"
             }
         ];
@@ -796,10 +1241,10 @@
                     }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
                             position: 'bottom'
                         }
                     }
@@ -842,16 +1287,16 @@
             const ctx3 = document.getElementById('experienceDistributionChart').getContext('2d');
             new Chart(ctx3, {
                 type: 'bar',
-                data: {
+            data: {
                     labels: Object.keys(experienceRanges),
-                    datasets: [{
+                datasets: [{
                         label: 'Number of Professionals',
                         data: Object.values(experienceRanges),
                         backgroundColor: '#667eea',
                         borderRadius: 8
-                    }]
-                },
-                options: {
+                }]
+            },
+            options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
@@ -878,21 +1323,21 @@
 
             const ctx4 = document.getElementById('avgExperienceChart').getContext('2d');
             new Chart(ctx4, {
-                type: 'bar',
-                data: {
+            type: 'bar',
+            data: {
                     labels: avgExperience.map(item => item.company),
-                    datasets: [{
+                datasets: [{
                         label: 'Average Years',
                         data: avgExperience.map(item => item.avg),
                         backgroundColor: avgExperience.map(item => companyColors[item.company]),
-                        borderRadius: 8
-                    }]
-                },
-                options: {
+                    borderRadius: 8
+                }]
+            },
+            options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
-                    scales: {
+                scales: {
                         y: { beginAtZero: true }
                     }
                 }
@@ -955,11 +1400,11 @@
                                     const percentage = ((context.parsed / total) * 100).toFixed(1);
                                     return `${context.label}: ${context.parsed} employees (${percentage}%)`;
                                 }
-                            }
                         }
                     }
                 }
-            });
+            }
+        });
 
             // Regional Analysis Chart
             const regions = {
@@ -980,18 +1425,18 @@
             const ctx8 = document.getElementById('regionalAnalysisChart').getContext('2d');
             new Chart(ctx8, {
                 type: 'bar',
-                data: {
+            data: {
                     labels: Object.keys(regionalCounts),
-                    datasets: [{
+                datasets: [{
                         label: 'Employees by Region',
                         data: Object.values(regionalCounts),
                         backgroundColor: ['#667eea', '#764ba2', '#f093fb', '#f5576c'],
                         borderRadius: 8,
                         borderWidth: 2,
                         borderColor: '#fff'
-                    }]
-                },
-                options: {
+                }]
+            },
+            options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: { 
@@ -1006,25 +1451,94 @@
                             }
                         }
                     },
-                    scales: {
-                        y: { 
-                            beginAtZero: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
                             title: {
                                 display: true,
                                 text: 'Number of Employees'
-                            }
-                        },
-                        x: {
+                        }
+                    },
+                    x: {
                             title: {
                                 display: true,
                                 text: 'Regions'
-                            }
                         }
                     }
-                                }
+                }
+            }
+        });
+
+            // Populate Geographic Distribution Table
+            const sortedEmployees = [...employeeData].sort((a, b) => {
+                // Sort by location first, then by company, then by name
+                if (a.location !== b.location) {
+                    return a.location.localeCompare(b.location);
+                }
+                if (a.company !== b.company) {
+                    return a.company.localeCompare(b.company);
+                }
+                return a.name.localeCompare(b.name);
             });
 
-
+            const tableBody = document.querySelector('#geographicDistributionTable tbody');
+            let currentLocation = '';
+            let locationCount = 0;
+            
+            sortedEmployees.forEach(emp => {
+                const row = tableBody.insertRow();
+                
+                // Check if this is a new location for grouping
+                const isNewLocation = emp.location !== currentLocation;
+                if (isNewLocation) {
+                    currentLocation = emp.location;
+                    locationCount++;
+                    row.style.borderTop = '2px solid #667eea';
+                    row.style.backgroundColor = locationCount % 2 === 0 ? '#f8fafc' : '#ffffff';
+                } else {
+                    row.style.backgroundColor = locationCount % 2 === 0 ? '#f8fafc' : '#ffffff';
+                }
+                
+                // Department styling
+                const departmentType = emp.type === 'leadership' ? 'Leadership' : 'Data Science';
+                const departmentColor = emp.type === 'leadership' ? '#764ba2' : '#4facfe';
+                
+                // Company class for styling
+                const companyClass = emp.company.toLowerCase().replace(/\s+/g, '').replace('rentacar', '');
+                
+                row.innerHTML = `
+                    <td style="font-weight: ${isNewLocation ? '700' : '400'}; color: ${isNewLocation ? '#2d3748' : '#6a7185'}; padding: 12px 15px;">
+                        ${isNewLocation ? emp.location : ''}
+                    </td>
+                    <td style="font-weight: 500; color: #2d3748; padding: 12px 15px;">${emp.name}</td>
+                    <td style="color: #4a5568; padding: 12px 15px;">${emp.designation}</td>
+                    <td style="padding: 12px 15px;"><span class="company-tag company-${companyClass}">${emp.company}</span></td>
+                    <td style="padding: 12px 15px;">
+                        <span style="background: ${departmentColor}; color: white; padding: 4px 10px; border-radius: 15px; font-size: 0.85rem; font-weight: 500;">
+                            ${departmentType}
+                        </span>
+                    </td>
+                    <td style="text-align: center; font-weight: 500; color: #2d3748; padding: 12px 15px;">${emp.experience_years} years</td>
+                    <td style="color: #4a5568; font-size: 0.9rem; padding: 12px 15px;">${emp.education}</td>
+                    <td style="text-align: center; padding: 12px 15px;">
+                        <a href="${emp.linkedin}" target="_blank" style="color: #0077b5; text-decoration: none; font-weight: 500;">
+                            <i class="fab fa-linkedin" style="font-size: 1.2rem;"></i>
+                        </a>
+                    </td>
+                `;
+                
+                // Add hover effect
+                row.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = '#e6f3ff';
+                    this.style.transform = 'scale(1.01)';
+                    this.style.transition = 'all 0.2s ease';
+                });
+                
+                row.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = locationCount % 2 === 0 ? '#f8fafc' : '#ffffff';
+                    this.style.transform = 'scale(1)';
+                });
+            });
  
         }
 
@@ -1045,7 +1559,7 @@
 
             new Chart(ctx5, {
                 type: 'bar',
-                data: {
+            data: {
                     labels: companies,
                     datasets: allDegrees.map((degree, index) => ({
                         label: degree,
@@ -1079,7 +1593,7 @@
                 type: 'bar',
                 data: {
                     labels: topUniversities.map(item => item[0]),
-                    datasets: [{
+                datasets: [{
                         label: 'Number of Employees',
                         data: topUniversities.map(item => item[1]),
                         backgroundColor: [

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CEO Dashboard: Leadership & Data Science Intelligence</title>
+    <title>CEO Dashboard: Revenue & Data Science Intelligence</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
@@ -406,36 +406,36 @@
 
         <div class="metrics-grid">
             <div class="metric-card">
-                    <div class="metric-value">47</div>
-                    <div class="metric-label">Total Leadership Profiles</div>
+                    <div class="metric-value">24</div>
+                    <div class="metric-label">Revenue Professionals</div>
             </div>
             <div class="metric-card">
-                    <div class="metric-value">73%</div>
-                    <div class="metric-label">Hold Advanced Degrees</div>
+                    <div class="metric-value">10:8:6</div>
+                    <div class="metric-label">SIXT:Hertz:Enterprise</div>
             </div>
             <div class="metric-card">
-                    <div class="metric-value">12.3</div>
-                <div class="metric-label">Avg Years Experience</div>
+                    <div class="metric-value">16.8</div>
+                <div class="metric-label">Avg Revenue Experience</div>
             </div>
             <div class="metric-card">
-                    <div class="metric-value">6</div>
-                    <div class="metric-label">Companies Analyzed</div>
+                    <div class="metric-value">80%</div>
+                    <div class="metric-label">Hold MBA/Advanced Degrees</div>
             </div>
         </div>
 
             <div class="charts-container">
                 <div class="chart-box">
-                    <div class="chart-title">Leadership Count by Company</div>
-                    <canvas id="leadershipByCompanyChart"></canvas>
+                    <div class="chart-title">Revenue Team Count by Company</div>
+                    <canvas id="revenueByCompanyChart"></canvas>
             </div>
                 <div class="chart-box">
                     <div class="chart-title">Educational Background of Leaders</div>
-                    <canvas id="leadershipEducationChart"></canvas>
+                    <canvas id="revenueEducationChart"></canvas>
             </div>
             </div>
 
-            <div class="chart-title">Leadership Profiles Directory</div>
-            <table class="data-table" id="leadershipTable">
+            <div class="chart-title">Revenue Team Directory</div>
+            <table class="data-table" id="revenueTable">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -461,20 +461,20 @@
 
             <div class="metrics-grid">
                 <div class="metric-card">
-                    <div class="metric-value">32</div>
+                    <div class="metric-value">28</div>
                     <div class="metric-label">Data Science Professionals</div>
                 </div>
                 <div class="metric-card">
-                    <div class="metric-value">5.8</div>
-                    <div class="metric-label">Avg Experience (Years)</div>
+                    <div class="metric-value">13:9:6</div>
+                    <div class="metric-label">Enterprise:Hertz:SIXT</div>
                 </div>
                 <div class="metric-card">
-                    <div class="metric-value">81%</div>
-                    <div class="metric-label">Masters or Higher</div>
+                    <div class="metric-value">7.2</div>
+                    <div class="metric-label">Avg Data Science Experience</div>
                 </div>
                 <div class="metric-card">
-                    <div class="metric-value">$95K</div>
-                    <div class="metric-label">Est. Avg Salary</div>
+                    <div class="metric-value">75%</div>
+                    <div class="metric-label">Hold Advanced Degrees</div>
                 </div>
             </div>
 
@@ -612,6 +612,58 @@
             </div>
         </div>
 
+        <!-- Individual Profiles Section -->
+        <div class="section">
+            <div class="section-title">
+                <i class="fas fa-users"></i>
+                Individual Profiles Directory
+            </div>
+            
+            <!-- Filters -->
+            <div class="filters" style="margin-bottom: 25px; display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+                <select id="companyFilter" title="Filter by Company" style="padding: 10px; border-radius: 8px; border: 1px solid #ddd; font-size: 14px;">
+                    <option value="">All Companies</option>
+                    <option value="SIXT">SIXT</option>
+                    <option value="Hertz">Hertz</option>
+                    <option value="Enterprise">Enterprise</option>
+                </select>
+                
+                <select id="departmentFilter" title="Filter by Department" style="padding: 10px; border-radius: 8px; border: 1px solid #ddd; font-size: 14px;">
+                    <option value="">All Departments</option>
+                    <option value="revenue">Revenue</option>
+                    <option value="data_science">Data Science</option>
+                </select>
+                
+                <input type="text" id="searchFilter" placeholder="Search by name or designation..." 
+                       style="padding: 10px; border-radius: 8px; border: 1px solid #ddd; font-size: 14px; min-width: 250px;">
+                
+                <button onclick="clearFilters()" style="padding: 10px 20px; border-radius: 8px; border: none; background: #667eea; color: white; cursor: pointer; font-size: 14px;">
+                    Clear Filters
+                </button>
+            </div>
+
+            <!-- Individual Profiles Table -->
+            <div style="overflow-x: auto;">
+                <table class="data-table" id="allProfilesTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Designation</th>
+                            <th>Company</th>
+                            <th>Department</th>
+                            <th>Experience (Years)</th>
+                            <th>Location</th>
+                            <th>Education</th>
+                            <th>LinkedIn</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Table will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
 
     <script>
@@ -688,7 +740,7 @@
                 experience_years: 16.6,
                 location: "United States",
                 linkedin: "https://www.linkedin.com/in/caryl-spoden-aab7a619/",
-                type: "leadership"
+                type: "revenue"
             },
             {
                 name: "Nico König",
@@ -698,7 +750,7 @@
                 experience_years: 13.4,
                 location: "Fort Lauderdale, Florida, United States",
                 linkedin: "https://www.linkedin.com/in/stephen-partin-1b8406b6/",
-                type: "leadership"
+                type: "revenue"
             },
             {
                 name: "Sammy Wagman",
@@ -708,7 +760,7 @@
                 experience_years: 8.7,
                 location: "Miami, Florida, United States",
                 linkedin: "https://www.linkedin.com/in/sammy-wagman-20495512a/",
-                type: "leadership"
+                type: "revenue"
             },
             {
                 name: "Mario Andres Rodriguez",
@@ -718,7 +770,7 @@
                 experience_years: 8.1,
                 location: "Miami, Florida, United States",
                 linkedin: "https://www.linkedin.com/in/marioandresrodriguez/",
-                type: "leadership"
+                type: "revenue"
             },
             {
                 name: "Bernd Eilers",
@@ -728,7 +780,7 @@
                 experience_years: 7.8,
                 location: "Boca Raton, Florida, United States",
                 linkedin: "https://www.linkedin.com/in/berndeilers/",
-                type: "leadership"
+                type: "revenue"
             },
             {
                 name: "Cody Barrows",
@@ -738,7 +790,7 @@
                 experience_years: 7.2,
                 location: "Denver Metropolitan Area",
                 linkedin: "https://www.linkedin.com/in/cody-barrows-85580047/",
-                type: "leadership"
+                type: "revenue"
             },
             {
                 name: "Ariel Ben-David",
@@ -748,7 +800,7 @@
                 experience_years: 6.3,
                 location: "Miami, Florida, United States",
                 linkedin: "https://www.linkedin.com/in/aben-david/",
-                type: "leadership"
+                type: "revenue"
             },
             {
                 name: "Sascha Kraus",
@@ -758,7 +810,7 @@
                 experience_years: 6.1,
                 location: "Fort Lauderdale, Florida, United States",
                 linkedin: "https://www.linkedin.com/in/sascha-kraus-mba-298369a7/",
-                type: "leadership"
+                type: "revenue"
             },
             {
                 name: "Natalie Giangrande",
@@ -768,7 +820,7 @@
                 experience_years: 5.3,
                 location: "Fort Lauderdale, Florida, United States",
                 linkedin: "https://www.linkedin.com/in/natalie-giangrande-6953aa128/",
-                type: "leadership"
+                type: "revenue"
             },
             {
                 name: "Gonzalo Covos",
@@ -778,7 +830,7 @@
                 experience_years: 5.1,
                 location: "Miami, Florida, United States",
                 linkedin: "https://www.linkedin.com/in/gonzalocovos/",
-                type: "leadership"
+                type: "revenue"
             },
 
             // HERTZ DATA SCIENCE TEAM
@@ -882,7 +934,7 @@
                 experience_years: 30,
                 location: "Spring, Texas, United States",
                 linkedin: "https://www.linkedin.com/in/sandra-osborne-a6796226/",
-                type: "leadership"
+                type: "revenue"
             },
             {
                 name: "Lisa Bambara",
@@ -892,7 +944,7 @@
                 experience_years: 29.4,
                 location: "Fort Myers, Florida, United States",
                 linkedin: "https://www.linkedin.com/in/lisa-bambara-mba-579494235/",
-                type: "leadership"
+                type: "revenue"
             },
             {
                 name: "Charles Vuono",
@@ -902,7 +954,7 @@
                 experience_years: 25.8,
                 location: "Naples, Florida, United States",
                 linkedin: "https://www.linkedin.com/in/charles-vuono-1202881/",
-                type: "leadership"
+                type: "revenue"
             },
             {
                 name: "Diana Jones",
@@ -912,7 +964,7 @@
                 experience_years: 22,
                 location: "Estero, Florida, United States",
                 linkedin: "https://www.linkedin.com/in/diana-jones-b3a1812b/",
-                type: "leadership"
+                type: "revenue"
             },
             {
                 name: "Don Patrick Lynam",
@@ -922,7 +974,7 @@
                 experience_years: 22,
                 location: "Fort Myers, Florida, United States",
                 linkedin: "https://www.linkedin.com/in/don-patrick-lynam/",
-                type: "leadership"
+                type: "revenue"
             },
             {
                 name: "Douglas Johnston",
@@ -932,7 +984,7 @@
                 experience_years: 20.3,
                 location: "Chester, New York, United States",
                 linkedin: "https://www.linkedin.com/in/douglas-johnston-98b2475/",
-                type: "leadership"
+                type: "revenue"
             },
             {
                 name: "Korri Alleyne",
@@ -942,7 +994,7 @@
                 experience_years: 19.8,
                 location: "Bronx, New York, United States",
                 linkedin: "https://www.linkedin.com/in/korri-alleyne-b79035152/",
-                type: "leadership"
+                type: "revenue"
             },
             {
                 name: "Joe Ciullo",
@@ -952,7 +1004,7 @@
                 experience_years: 19.6,
                 location: "Estero, Florida, United States",
                 linkedin: "https://www.linkedin.com/in/joe-ciullo-02399450/",
-                type: "leadership"
+                type: "revenue"
             },
 
             // ENTERPRISE REVENUE TEAM (from previous tab)
@@ -964,7 +1016,7 @@
                 experience_years: 24.4,
                 location: "St Charles, Missouri, United States",
                 linkedin: "https://www.linkedin.com/in/michael-moe-panigel-46b9099/",
-                type: "leadership"
+                type: "revenue"
             },
             {
                 name: "Joseph M Schmidt",
@@ -974,7 +1026,7 @@
                 experience_years: 22.7,
                 location: "St Louis, Missouri, United States",
                 linkedin: "https://www.linkedin.com/in/joseph-m-schmidt-77a71021/",
-                type: "leadership"
+                type: "revenue"
             },
             {
                 name: "Manuel Blair",
@@ -984,7 +1036,7 @@
                 experience_years: 21.1,
                 location: "Florissant, Missouri, United States",
                 linkedin: "https://www.linkedin.com/in/manuel-blair-7b11109/",
-                type: "leadership"
+                type: "revenue"
             },
             {
                 name: "Kim Meyers",
@@ -994,7 +1046,7 @@
                 experience_years: 18.1,
                 location: "St Louis, Missouri, United States",
                 linkedin: "https://www.linkedin.com/in/kim-meyers-5aa99065/",
-                type: "leadership"
+                type: "revenue"
             },
             {
                 name: "Albert Alvarado",
@@ -1004,7 +1056,7 @@
                 experience_years: 18,
                 location: "St Louis, Missouri, United States",
                 linkedin: "https://www.linkedin.com/in/albert-alvarado-65210014/",
-                type: "leadership"
+                type: "revenue"
             },
             {
                 name: "Lauren Calero",
@@ -1014,7 +1066,7 @@
                 experience_years: 17.7,
                 location: "United States",
                 linkedin: "https://www.linkedin.com/in/lauren-calero-7b04024b/",
-                type: "leadership"
+                type: "revenue"
             },
 
             // ENTERPRISE DATA SCIENCE TEAM (from previous tab)
@@ -1162,29 +1214,30 @@
 
         // Initialize the dashboard
         document.addEventListener('DOMContentLoaded', function() {
-            initializeLeadershipAnalysis();
+            initializeRevenueAnalysis();
             initializeDataScienceAnalysis();
             initializeEducationTrends();
             initializeGeographicAnalysis();
             initializeMap();
+            initializeIndividualProfiles();
         });
 
-        function initializeLeadershipAnalysis() {
-            const leadershipData = employeeData.filter(emp => emp.type === 'leadership');
+        function initializeRevenueAnalysis() {
+            const revenueData = employeeData.filter(emp => emp.type === 'revenue');
             
-            // Leadership by Company Chart
+            // Revenue Team by Company Chart
             const companyCounts = {};
-            leadershipData.forEach(emp => {
+            revenueData.forEach(emp => {
                 companyCounts[emp.company] = (companyCounts[emp.company] || 0) + 1;
             });
 
-            const ctx1 = document.getElementById('leadershipByCompanyChart').getContext('2d');
+            const ctx1 = document.getElementById('revenueByCompanyChart').getContext('2d');
             new Chart(ctx1, {
                 type: 'bar',
                 data: {
                     labels: Object.keys(companyCounts),
                     datasets: [{
-                        label: 'Leadership Count',
+                        label: 'Revenue Team Count',
                         data: Object.values(companyCounts),
                         backgroundColor: Object.keys(companyCounts).map(company => companyColors[company]),
                         borderRadius: 8
@@ -1200,14 +1253,14 @@
                 }
             });
 
-            // Leadership Education Chart
+            // Revenue Team Education Chart
             const educationCounts = {};
-            leadershipData.forEach(emp => {
+            revenueData.forEach(emp => {
                 const degree = emp.education.split(',')[0];
                 educationCounts[degree] = (educationCounts[degree] || 0) + 1;
             });
 
-            const ctx2 = document.getElementById('leadershipEducationChart').getContext('2d');
+            const ctx2 = document.getElementById('revenueEducationChart').getContext('2d');
             new Chart(ctx2, {
                 type: 'doughnut',
                 data: {
@@ -1228,9 +1281,9 @@
                 }
             });
 
-            // Populate Leadership Table
-            const tableBody = document.querySelector('#leadershipTable tbody');
-            leadershipData.forEach(emp => {
+            // Populate Revenue Team Table
+            const tableBody = document.querySelector('#revenueTable tbody');
+            revenueData.forEach(emp => {
                 const row = tableBody.insertRow();
                 row.innerHTML = `
                     <td>${emp.name}</td>
@@ -1477,8 +1530,8 @@
                 }
                 
                 // Department styling
-                const departmentType = emp.type === 'leadership' ? 'Leadership' : 'Data Science';
-                const departmentColor = emp.type === 'leadership' ? '#764ba2' : '#4facfe';
+                const departmentType = emp.type === 'revenue' ? 'Revenue' : 'Data Science';
+                const departmentColor = emp.type === 'revenue' ? '#764ba2' : '#4facfe';
                 
                 // Company class for styling
                 const companyClass = emp.company.toLowerCase().replace(/\s+/g, '').replace('rentacar', '');
@@ -1735,6 +1788,76 @@
                 map.invalidateSize();
             }, 100);
             }, 200); // Close the setTimeout for map initialization
+        }
+
+        // Individual Profiles Functions
+        function initializeIndividualProfiles() {
+            populateIndividualProfilesTable(employeeData);
+            setupFilters();
+        }
+
+        function populateIndividualProfilesTable(data) {
+            const tableBody = document.querySelector('#allProfilesTable tbody');
+            tableBody.innerHTML = '';
+            
+            data.forEach(emp => {
+                const row = tableBody.insertRow();
+                const departmentType = emp.type === 'revenue' ? 'Revenue' : 'Data Science';
+                const companyClass = emp.company.toLowerCase().replace(/[^a-z]/g, '');
+                
+                row.innerHTML = `
+                    <td style="font-weight: 600;">${emp.name}</td>
+                    <td>${emp.designation}</td>
+                    <td><span class="company-tag company-${companyClass}" style="background-color: ${companyColors[emp.company]}; color: white; padding: 3px 8px; border-radius: 12px; font-size: 12px; font-weight: 500;">${emp.company}</span></td>
+                    <td><span style="background-color: ${emp.type === 'revenue' ? '#764ba2' : '#4facfe'}; color: white; padding: 3px 8px; border-radius: 12px; font-size: 12px; font-weight: 500;">${departmentType}</span></td>
+                    <td style="text-align: center; font-weight: 600; color: #667eea;">${emp.experience_years}</td>
+                    <td style="font-size: 14px; color: #666;">${emp.location}</td>
+                    <td style="font-size: 14px; max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${emp.education}">${emp.education}</td>
+                    <td><a href="${emp.linkedin}" target="_blank" style="color: #0077b5; text-decoration: none;"><i class="fab fa-linkedin"></i> Profile</a></td>
+                `;
+            });
+        }
+
+        function setupFilters() {
+            const companyFilter = document.getElementById('companyFilter');
+            const departmentFilter = document.getElementById('departmentFilter');
+            const searchFilter = document.getElementById('searchFilter');
+
+            companyFilter.addEventListener('change', filterProfiles);
+            departmentFilter.addEventListener('change', filterProfiles);
+            searchFilter.addEventListener('input', filterProfiles);
+        }
+
+        function filterProfiles() {
+            const companyFilter = document.getElementById('companyFilter').value;
+            const departmentFilter = document.getElementById('departmentFilter').value;
+            const searchFilter = document.getElementById('searchFilter').value.toLowerCase();
+
+            let filteredData = employeeData;
+
+            if (companyFilter) {
+                filteredData = filteredData.filter(emp => emp.company === companyFilter);
+            }
+
+            if (departmentFilter) {
+                filteredData = filteredData.filter(emp => emp.type === departmentFilter);
+            }
+
+            if (searchFilter) {
+                filteredData = filteredData.filter(emp => 
+                    emp.name.toLowerCase().includes(searchFilter) ||
+                    emp.designation.toLowerCase().includes(searchFilter)
+                );
+            }
+
+            populateIndividualProfilesTable(filteredData);
+        }
+
+        function clearFilters() {
+            document.getElementById('companyFilter').value = '';
+            document.getElementById('departmentFilter').value = '';
+            document.getElementById('searchFilter').value = '';
+            populateIndividualProfilesTable(employeeData);
         }
     </script>
 </body>
